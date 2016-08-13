@@ -16,9 +16,9 @@ describe('headings', function () {
     assert($("h1 a[href='#h1']").length)
   })
 
-  it('injects name attribute into headings', function () {
+  it('injects name attribute into the anchor tags', function () {
     assert(~fixtures.dirty.indexOf('# h1'))
-    assert($("h1[name='h1']").length)
+    assert($("h1 a[name='h1']").length)
   })
 
   it('adds deep-link class to modified headings', function () {
