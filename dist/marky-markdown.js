@@ -680,8 +680,8 @@ sanitizer.config = {
     div: ['id'],
     span: [],
     pre: [],
-    td: ['colspan', 'rowspan'],
-    th: ['colspan', 'rowspan'],
+    td: ['colspan', 'rowspan', 'style'],
+    th: ['colspan', 'rowspan', 'style'],
     del: ['cite', 'datetime'],
     ins: ['cite', 'datetime']
   },
@@ -697,7 +697,35 @@ sanitizer.config = {
     // Allow YouTube iframes
     if (frame.tag !== 'iframe') return false
     return !String(frame.attribs.src).match(/^(https?:)?\/\/(www\.)?youtube\.com/)
+  },
+  transformTags: {
+    'td': sanitizeCellStyle,
+    'th': sanitizeCellStyle
   }
+}
+
+// Allow table cell alignment
+function sanitizeCellStyle (tagName, attribs) {
+  // if we don't add the 'style' to the allowedAttributes above, it will be
+  // stripped out by the time we get here, so we have to filter out
+  // everything but `text-align` in case something else tries to sneak in
+  function cell (alignment) {
+    var attributes = attribs
+    if (alignment) {
+      attributes.style = 'text-align:' + alignment
+    } else {
+      delete attributes.style
+    }
+    return {
+      tagName: tagName,
+      attribs: attributes
+    }
+  }
+
+  // look for CSS `text-align` directives
+  var alignmentRegEx = /text-align\s*:\s*(left|center|right)[\s;$]*/igm
+  var result = alignmentRegEx.exec(attribs.style || '')
+  return result ? cell(result[1]) : cell()
 }
 
 },{"./highlights-tokens":10,"sanitize-html":182}],15:[function(require,module,exports){
@@ -4754,16 +4782,8 @@ exports.isHtml = function(str) {
 module.exports={
   "_args": [
     [
-      {
-        "raw": "cheerio@^0.20.0",
-        "scope": null,
-        "escapedName": "cheerio",
-        "name": "cheerio",
-        "rawSpec": "^0.20.0",
-        "spec": ">=0.20.0 <0.21.0",
-        "type": "range"
-      },
-      "/Users/zeke/zeke/marky-markdown"
+      "cheerio@^0.20.0",
+      "/Users/revinguillen/Projects/marky-markdown"
     ]
   ],
   "_from": "cheerio@>=0.20.0 <0.21.0",
@@ -4773,17 +4793,16 @@ module.exports={
   "_location": "/cheerio",
   "_nodeVersion": "5.5.0",
   "_npmUser": {
-    "name": "feedic",
-    "email": "me@feedic.com"
+    "email": "me@feedic.com",
+    "name": "feedic"
   },
   "_npmVersion": "3.6.0",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "cheerio@^0.20.0",
-    "scope": null,
-    "escapedName": "cheerio",
     "name": "cheerio",
+    "raw": "cheerio@^0.20.0",
     "rawSpec": "^0.20.0",
+    "scope": null,
     "spec": ">=0.20.0 <0.21.0",
     "type": "range"
   },
@@ -4794,10 +4813,10 @@ module.exports={
   "_shasum": "5c710f2bab95653272842ba01c6ea61b3545ec35",
   "_shrinkwrap": null,
   "_spec": "cheerio@^0.20.0",
-  "_where": "/Users/zeke/zeke/marky-markdown",
+  "_where": "/Users/revinguillen/Projects/marky-markdown",
   "author": {
-    "name": "Matt Mueller",
     "email": "mattmuelle@gmail.com",
+    "name": "Matt Mueller",
     "url": "mat.io"
   },
   "bugs": {
@@ -4847,20 +4866,20 @@ module.exports={
   "main": "./index.js",
   "maintainers": [
     {
-      "name": "mattmueller",
-      "email": "mattmuelle@gmail.com"
+      "email": "mattmuelle@gmail.com",
+      "name": "mattmueller"
     },
     {
-      "name": "davidchambers",
-      "email": "dc@davidchambers.me"
+      "email": "dc@davidchambers.me",
+      "name": "davidchambers"
     },
     {
-      "name": "jugglinmike",
-      "email": "mike@mikepennisi.com"
+      "email": "mike@mikepennisi.com",
+      "name": "jugglinmike"
     },
     {
-      "name": "feedic",
-      "email": "me@feedic.com"
+      "email": "me@feedic.com",
+      "name": "feedic"
     }
   ],
   "name": "cheerio",
