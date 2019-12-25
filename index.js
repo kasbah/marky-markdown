@@ -1,31 +1,35 @@
-var cheerio = require('cheerio')
 var defaults = require('lodash.defaults')
+var isPlainObj = require('is-plain-obj')
 var render = require('./lib/render')
 var sanitize = require('./lib/sanitize')
-var badges = require('./lib/badges')
-var cdn = require('./lib/cdn')
-var github = require('./lib/github')
-var youtube = require('./lib/youtube')
-var gravatar = require('./lib/gravatar')
-var packagize = require('./lib/packagize')
+var markyInfo = require('./marky.json')
+
+var defaultOptions = {
+  sanitize: true,
+  nofollow: true,
+  linkify: true,
+  highlightSyntax: true,
+  prefixHeadingIds: true,
+  enableHeadingLinkIcons: true,
+  serveImagesWithCDN: false,
+  debug: false,
+  package: null,
+  headingAnchorClass: 'anchor',
+  headingSvgClass: ['octicon', 'octicon-link']
+}
 
 var marky = module.exports = function (markdown, options) {
-  var html, $
+  var html
 
   if (typeof markdown !== 'string') {
     throw Error('first argument must be a string')
   }
+  if (typeof options !== 'undefined' && !isPlainObj(options)) {
+    throw Error('second argument must be an object')
+  }
 
   options = options || {}
-  defaults(options, {
-    sanitize: true,
-    linkify: true,
-    highlightSyntax: true,
-    prefixHeadingIds: true,
-    serveImagesWithCDN: false,
-    debug: false,
-    package: null
-  })
+  defaults(options, defaultOptions)
 
   var log = function (msg) {
     if (options.debug) {
@@ -40,31 +44,38 @@ var marky = module.exports = function (markdown, options) {
 
   if (options.sanitize) {
     log('Sanitize malicious or malformed HTML')
-    html = sanitize(html)
+    html = sanitize(html, options)
   }
 
-  log('Parse HTML into a cheerio DOM object')
-  $ = cheerio.load(html)
+  if (options.debug) {
+    var debugHeader =
+      '<!--' +
+      ' this HTML was generated using marky-markdown version ' + markyInfo.version + '.' +
+      ' see an issue? file at ' + markyInfo.issuesUrl + '.' +
+      ' please include the version in your issue. thanks for using marky!' +
+      ' to learn more, visit ' + markyInfo.repositoryUrl + '.' +
+      '  -->'
 
-  log('Make gravatar image URLs secure')
-  $ = gravatar($)
-
-  log('Resolve relative GitHub link hrefs')
-  $ = github($, options.package)
-
-  log('Dress up Youtube iframes')
-  $ = youtube($)
-
-  log('Add CSS classes to paragraphs containing badges')
-  $ = badges($)
-
-  log('Apply CSS classes to readme content already expressed by package metadata')
-  $ = packagize($, options.package)
-  if (options.serveImagesWithCDN) {
-    log('Rewrite relative image source to use CDN')
-    $ = cdn($, options.package)
+    html = debugHeader + '\n' + html
   }
-  return $
+
+  return html
 }
 
-marky.parsePackageDescription = packagize.parsePackageDescription
+marky.parsePackageDescription = function (description) {
+  return sanitize(render.renderPackageDescription(description), defaultOptions)
+}
+
+marky.getParser = function (options) {
+  options = options || {}
+
+  var parser = render.getParser(defaults(options, defaultOptions))
+
+  if (options.sanitize) {
+    var originalRender = parser.render
+    parser.render = function (markdown) {
+      return sanitize(originalRender.call(parser, markdown), options)
+    }
+  }
+  return parser
+}

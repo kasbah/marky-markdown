@@ -3,13 +3,14 @@
 var assert = require('assert')
 var marky = require('..')
 var fixtures = require('./fixtures')
+var cheerio = require('cheerio')
 
 describe('youtube', function () {
   var $
   var iframes
 
   before(function () {
-    $ = marky(fixtures.basic)
+    $ = cheerio.load(marky(fixtures.basic))
     iframes = $('.youtube-video > iframe')
   })
 
@@ -26,7 +27,7 @@ describe('youtube', function () {
 
   it('preserves existing src, frameborder, and allowfullscreen properties', function () {
     var iframe = iframes.eq(0)
-    assert.equal(iframe.attr('src'), '//www.youtube.com/embed/3I78ELjTzlQ')
+    assert.equal(iframe.attr('src'), 'https://www.youtube.com/embed/3I78ELjTzlQ')
     assert.equal(iframe.attr('frameborder'), '0')
     assert.equal(iframe.attr('allowfullscreen'), '')
   })

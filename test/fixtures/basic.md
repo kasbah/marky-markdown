@@ -27,6 +27,10 @@ app.listen(3000)
 echo hi
 ```
 
+```bash
+echo hi
+```
+
 ```coffeescript
 alert "hi"
 ```
@@ -34,6 +38,39 @@ alert "hi"
 ```diff
 -removed
 +added
+```
+
+```jsx
+class Thinger extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <div>{this.whatever}</div>
+    )
+  }
+}
+```
+
+```ts
+interface Person {
+    firstName: string;
+    lastName: string;
+}
+
+function greeter(person: Person) {
+    return "Hello, " + person.firstName + " " + person.lastName;
+}
+```
+
+```typescript
+class Student {
+    fullName: string;
+    constructor(public firstName, public middleInitial, public lastName) {
+        this.fullName = firstName + " " + middleInitial + " " + lastName;
+    }
+}
 ```
 
 Mustache {{template}} variable {{do.not.replace}}

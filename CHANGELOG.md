@@ -1,3 +1,375 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="12.0.0"></a>
+# [12.0.0](https://github.com/npm/marky-markdown/compare/v11.3.2...v12.0.0) (2018-01-17)
+
+
+### Features
+
+* add rel=nofollow to links if the `nofollow` option is set ([#426](https://github.com/npm/marky-markdown/issues/426)) ([bb36977](https://github.com/npm/marky-markdown/commit/bb36977))
+
+
+### BREAKING CHANGES
+
+* links now default to having rel=nofollow set
+
+
+
+<a name="11.3.2"></a>
+## [11.3.2](https://github.com/npm/marky-markdown/compare/v11.3.1...v11.3.2) (2017-09-28)
+
+
+
+<a name="11.3.1"></a>
+## [11.3.1](https://github.com/npm/marky-markdown/compare/v11.3.0...v11.3.1) (2017-09-21)
+
+
+
+<a name="11.3.0"></a>
+# [11.3.0](https://github.com/npm/marky-markdown/compare/v11.2.0...v11.3.0) (2017-09-19)
+
+
+### Features
+
+* allow heading alignment ([62ae4c6](https://github.com/npm/marky-markdown/commit/62ae4c6))
+* **dep:** bump oniguruma ([2c5eaf2](https://github.com/npm/marky-markdown/commit/2c5eaf2))
+* **test:** do not hard code 6.9.5 in travis.yml ([4fba622](https://github.com/npm/marky-markdown/commit/4fba622))
+
+
+
+<a name="11.2.0"></a>
+# [11.2.0](https://github.com/npm/marky-markdown/compare/v11.1.0...v11.2.0) (2017-08-19)
+
+
+### Features
+
+* Add support/tests for typescript highlighting ([a8e38fc](https://github.com/npm/marky-markdown/commit/a8e38fc))
+
+
+
+<a name="11.1.0"></a>
+# [11.1.0](https://github.com/npm/marky-markdown/compare/v11.0.0...v11.1.0) (2017-08-19)
+
+
+### Bug Fixes
+
+* make github package-relative url rewriting work in multi-line html blocks ([#405](https://github.com/npm/marky-markdown/issues/405)) ([3cf4691](https://github.com/npm/marky-markdown/commit/3cf4691))
+
+
+### Features
+
+* add support for JSX syntax highlighting in code blocks ([#396](https://github.com/npm/marky-markdown/issues/396)) ([4c24348](https://github.com/npm/marky-markdown/commit/4c24348))
+* treat `bash` the same as `sh` for specifying code fence language ([#401](https://github.com/npm/marky-markdown/issues/401)) ([8ba4368](https://github.com/npm/marky-markdown/commit/8ba4368))
+
+
+
+<a name="11.0.0"></a>
+# [11.0.0](https://github.com/npm/marky-markdown/compare/v10.1.4...v11.0.0) (2017-06-09)
+
+
+### Bug Fixes
+
+* switch back to CommonMark HTML block parsing to match GitHub's new implementation ([c15349c](https://github.com/npm/marky-markdown/commit/c15349c))
+
+
+### BREAKING CHANGES
+
+* HTML blocks must (once again) be terminated by a blank line rather than allowing markdown to interrupt the HTML block. This matches marky-markdown@<10.x behavior, as well as CommonMark.
+
+
+
+<a name="10.1.4"></a>
+## [10.1.4](https://github.com/npm/marky-markdown/compare/v10.1.3...v10.1.4) (2017-06-08)
+
+
+### Bug Fixes
+
+* **test:** explicitly test for falsy repository.url in package ([93b17a6](https://github.com/npm/marky-markdown/commit/93b17a6))
+
+
+
+<a name="10.1.3"></a>
+## [10.1.3](https://github.com/npm/marky-markdown/compare/v10.1.2...v10.1.3) (2017-06-06)
+
+
+### Bug Fixes
+
+* allow link titles to be delimited by parentheses ([a66ed66](https://github.com/npm/marky-markdown/commit/a66ed66))
+
+
+
+<a name="10.1.2"></a>
+## [10.1.2](https://github.com/npm/marky-markdown/compare/v10.1.1...v10.1.2) (2017-06-06)
+
+
+### Bug Fixes
+
+* infinite loop caused by abstemious HTML plugin ([#382](https://github.com/npm/marky-markdown/issues/382)) ([1e4b838](https://github.com/npm/marky-markdown/commit/1e4b838))
+
+
+
+<a name="10.1.1"></a>
+## [10.1.1](https://github.com/npm/marky-markdown/compare/v10.1.0...v10.1.1) (2017-06-02)
+
+
+### Bug Fixes
+
+* convert ES6 template string to ES5; gets the browserify bundle working ([3b16ea9](https://github.com/npm/marky-markdown/commit/3b16ea9))
+
+
+
+<a name="10.1.0"></a>
+# [10.1.0](https://github.com/npm/marky-markdown/compare/v10.0.1...v10.1.0) (2017-06-02)
+
+
+### Features
+
+* classes attached to anchor and svg in headings can now be configured ([f7a0883](https://github.com/npm/marky-markdown/commit/f7a0883))
+
+
+
+<a name="10.0.1"></a>
+# 10.0.1 (2017-05-31)
+
+- Fix the browserify build, which had broken due to the inclusion of some ES6+ code. ([pull/372])
+
+[pull/372]: https://github.com/npm/marky-markdown/pull/372
+
+# 10.0.0 (2017-05-26)
+
+We're fine tuning a lot of small but noticeable behavioral differences between
+our renderer and GitHub's, as we discover situations where GitHub differs from
+CommonMark. The closer we get to full GitHub compatibility, the edge-case-ier
+our changes become. Without a doubt, version 10 is the edge-case-fix-iest
+release of marky-markdown yet!
+
+## Breaking Changes
+
+- links generated in headers are created differently:
+  - links now use class `anchor` rather than `deep-link`. ([pull/289])
+  - SVG icons in links now use class `octicon` and `octicon-link` rather than
+    `deep-link-icon`. ([pull/292])
+  - headings now have `aria-hidden=true`. ([pull/293])
+- we no longer do special processing on badge images. ([pull/303])
+- any options provided must now be an object. ([pull/323])
+- ids in user generated HTML are now prefixed. ([pull/358])
+
+## Features
+
+- spaces are now supported in image and url paths, thanks [sjking]! ([pull/280])
+- new `getParser` method to provide access to the underlying markdown-it parser
+  instance in case you want to use [custom markdown-it plugins] in your own
+  apps. ([pull/285], [pull/287]; see [low level parser access])
+- marky-markdown now understands relative GitHub links, e.g., `[logo](/logo.png)` 😄 ([pull/308])
+- support for spaces between link labels and paths. ([pull/329])
+- `details` and `summary` are now white-listed HTML tags. ([pull/333])
+- support for GitHub repos that have no master branch. thanks [zkat]! ([pull/351])
+- **security:** ids in user generated HTML are now prefixed. ([pull/358])
+- add debug information to footer if debug is enabled. ([pull/346])
+- support string repository shorthand in package.json. ([pull/369])
+
+## Fixes
+
+- stop stripping `style` attributes from `img` elements. ([pull/299])
+- HTML blocks are no longer greedy. ([pull/325])
+- syntax highlighting no longer applied if no language is specified in code block. ([pull/327])
+- headings can now interrupt paragraphs, and will be rendered appropriately. ([pull/326])
+- markdown-it now properly renders tables with internal code blocks. ([pull/316])
+- fix bug with relative images and links. ([pull/323])
+- enforce that if options are passed, they must be an object. ([pull/323])
+
+[pull/280]: https://github.com/npm/marky-markdown/pull/280
+[custom markdown-it plugins]: https://www.npmjs.com/search?q=markdown-it-plugin
+[low level parser access]: https://github.com/npm/marky-markdown/tree/abc7919e840977efaf4e9212879339b258981db0#low-level-parser-access
+[pull/285]: https://github.com/npm/marky-markdown/pull/285
+[pull/287]: https://github.com/npm/marky-markdown/pull/287
+[pull/289]: https://github.com/npm/marky-markdown/pull/289
+[pull/292]: https://github.com/npm/marky-markdown/pull/292
+[pull/293]: https://github.com/npm/marky-markdown/pull/293
+[pull/299]: https://github.com/npm/marky-markdown/pull/299
+[pull/303]: https://github.com/npm/marky-markdown/pull/303
+[pull/308]: https://github.com/npm/marky-markdown/pull/308
+[pull/316]: https://github.com/npm/marky-markdown/pull/316
+[pull/322]: https://github.com/npm/marky-markdown/pull/322
+[pull/323]: https://github.com/npm/marky-markdown/pull/323
+[pull/325]: https://github.com/npm/marky-markdown/pull/325
+[pull/326]: https://github.com/npm/marky-markdown/pull/326
+[pull/327]: https://github.com/npm/marky-markdown/pull/327
+[pull/329]: https://github.com/npm/marky-markdown/pull/329
+[pull/333]: https://github.com/npm/marky-markdown/pull/333
+[pull/346]: https://github.com/npm/marky-markdown/pull/346
+[pull/351]: https://github.com/npm/marky-markdown/pull/351
+[pull/358]: https://github.com/npm/marky-markdown/pull/358
+[pull/369]: https://github.com/npm/marky-markdown/pull/369
+[zkat]: https://github.com/zkat
+
+# 9.0.3 (2017-04-12)
+
+### Bug Fix! 🐛
+
+- Updated sanitization to ensure that user-generated ids that are in HTML
+  blocks are also prefixed. ([pull/357])
+
+[pull/357]: https://github.com/npm/marky-markdown/pull/357
+
+# 9.0.2 (2017-03-03)
+
+### Dependencies
+
+- Bumped `highlights` to `2.1.3` because a new version of its dep `fs-plus`
+  broke Node 4 builds
+
+# 9.0.1 (2016-10-31)
+
+### Bug Fix! 🐞
+
+- Fixed a bug in our CLI script that appeared because we forgot to update it to
+  account for the breaking API change in v9, lololol. Thanks to [sjking] for
+  coming to the rescue! ([pull/276])
+
+[sjking]: https://github.com/sjking
+[pull/276]: https://github.com/npm/marky-markdown/pull/276
+
+# 9.0.0 (2016-10-31)
+
+## Breaking API Change
+
+**marky-markdown now returns an HTML string rather than a cheerio DOM object.**
+
+With this release, we took cheerio out of the processing pipeline and replaced
+formerly cheerio-based operations with custom markdown-it plugins. Removing the
+overhead of creating a DOM object for every document speeds marky-markdown up
+by 15–20% on average, but it _does_ also result in a change to the API.
+
+So what used to be:
+```js
+var marky = require('marky-markdown')
+var html = marky('# Some markdown string').html()
+```
+is now:
+```js
+var marky = require('marky-markdown')
+var html = marky('# Some markdown string') // no longer need `.html()`
+```
+
+Many marky-markdown users will only need to remove the `.html()` method call,
+because all they needed is raw HTML anyway. For any users who do need the
+cheerio DOM object, the migration path is to create the DOM object yourself:
+```js
+var marky = require('marky-markdown')
+var html = marky('# Some markdown string')
+
+var cheerio = require('cheerio')
+var dom = cheerio.load(html)
+```
+
+Cheerio, cheerio! (HT [wmhilton])
+
+## Other Changes in this Release
+
+- **Node 6 support!** We've been blocked on supporting node 6.x for quite a
+  while now ([issue/176]), but thanks to some upstream work
+  ([here](https://github.com/atom/first-mate/pull/74) and
+  [here](https://github.com/atom/highlights/pull/44)), the blocker has been
+  removed, and now you can use marky in The Future™. ([pull/227] by
+  [ashleygwilliams])
+- **Node 0.10 dev environment no longer supported** We've updated our
+  devDependency on JS Standard to 8.x which no longer supports Node 0.10 and
+  0.12.  Node 0.10 is being EOLd this year, and as a result, we feel ok no
+  longer supporting them as development environments. You can still **use**
+  marky using 0.10, but if you want to **develop** it, you'll need to upgrade
+  to Node 4 or later. ([pull/239] by Greenkeeper)
+- **More GitHub-like heading rendering!** Working out a solution for [issue/224]
+  led us down a path that resulted in our generated headings getting closer to
+  what GitHub renders. Now the `deep-link` class and generated `id` slugs that
+  we formerly applied to heading elements themselves are added to a link we put
+  inside the heading. This means we no longer wrap headings' entire contents in
+  a link, which means we can generate an anchor for every heading, not just ones
+  that don't contain links to begin with. Win! (also, Mouthful!). The new-style
+  links contain an SVG icon that matches GitHub's hover icon; if you want to
+  disable it, you can pass `{enableHeadingLinkIcons: false}` in marky's
+  `options`. Big thanks to [nwhetsell] for the help! ([pull/225] by
+  [ashleygwilliams] and [revin])
+- **More GitHub-like link/image/paragraph rendering!** Oops, we were stripping
+  out `title` attributes from links and images, as well as `align` attributes
+  from paragraphs during the rendering process, but now we handle those
+  correctly, so, e.g., `[link](#url "title text")` turns into
+  `<a href="#url" title="title text">link</a>` like it should, and if you have
+  inline HTML like `<p align="center">...</p>` the alignment doesn't get
+  stripped. ([pull/235], [issue/241] by [kasbah], [pull/242]). The `align`
+  attribute is also supported on inline HTML `<img>` elements too. ([pull/270],
+  [issue/269] by [revelt])
+- **Even _more_ GitHub-like heading rendering!** [kasbah] clued us into the fact
+  that GitHub only considers `# header` text to be a header if there's no
+  leading whitespace before the `#` character (CommonMark allows up to three
+  leading spaces, see the [specification](http://spec.commonmark.org/0.26/#example-38)).
+  Thanks, [kasbah]! ([issue/233], [pull/234])
+- **Faster parsing!** As above: no more cheerio. ([pull/246], [pull/251] by
+  [revin])
+- **Leaner published package!** We used to ship marky with the unit test suite
+  included, but now it's in our [npm ignore] file, so `npm install` no longer
+  gives you the tests. They're still here, of course; you just have to clone the
+  repo now :smile: ([pull/223] by [ashleygwilliams])
+- **Git repository cleanup!** We were getting tired of dealing with merge
+  conflicts in our browserify bundle, so in response to [issue/262],
+  [karanjthakkar] heroically submitted [pull/271] to help us make our
+  development experience nicer (now the bundle is in the published package, but
+  not tracked by git). Thank you!
+
+#### CommonMark 0.26
+
+The specification that forms the basis for "standard" Markdown parsing continues
+to evolve; it's up to [0.26](http://spec.commonmark.org/0.26/) now, with the
+changes implemented in [markdown-it 8.0.0]. The main updates are:
+
+  - When whitespace is used to specify a block (for example, the indentation
+    that creates a code block, or indenting lists), it's now legal to use tab
+    characters rather than spaces. Such leading tabs now behave as if they were
+    replaced by four spaces.
+  - Ordered lists that appear at the end of paragraphs are required to start
+    with a 1.
+  - It's now legal to have multiple blank lines between list items. CommonMark
+    used to treat those as separate lists, but now they collapse into the same
+    list (which is nice for us, because that's how GitHub has always done it).
+  - Text emphasis is calculated differently now. `*foo**bar**baz*` used to be
+    `<em>foo</em><em>bar</em><em>baz</em>` but now it becomes
+    `<em>foo</em><strong>bar</strong><em>baz</em>`.
+
+### Dependencies
+
+- `markdown-it` updated to `^8.0.0`
+- `highlights` updated to `^1.4.1`
+- `cheerio` updated to `^0.22.0`
+- `markdown-it-emoji` updated to `^1.3.0`
+- `innertext` added at `^1.0.1`
+- `is-badge` added at `^1.1.0`
+
+[issue/176]: https://github.com/npm/marky-markdown/issues/176
+[issue/224]: https://github.com/npm/marky-markdown/issues/224
+[nwhetsell]: https://github.com/nwhetsell
+[pull/223]: https://github.com/npm/marky-markdown/pull/223
+[pull/225]: https://github.com/npm/marky-markdown/pull/225
+[pull/227]: https://github.com/npm/marky-markdown/pull/227
+[pull/235]: https://github.com/npm/marky-markdown/pull/235
+[kasbah]: https://github.com/kasbah
+[issue/233]: https://github.com/npm/marky-markdown/issues/233
+[pull/234]: https://github.com/npm/marky-markdown/issues/234
+[npm ignore]: https://github.com/npm/marky-markdown/blob/master/.npmignore
+[issue/241]: https://github.com/npm/marky-markdown/issues/241
+[pull/242]: https://github.com/npm/marky-markdown/issues/242
+[markdown-it 8.0.0]: https://github.com/markdown-it/markdown-it/blob/master/CHANGELOG.md#800--2016-09-16
+[pull/239]: https://github.com/npm/marky-markdown/pull/239
+[pull/251]: https://github.com/npm/marky-markdown/pull/251
+[pull/246]: https://github.com/npm/marky-markdown/pull/246
+[issue/269]: https://github.com/npm/marky-markdown/issues/269
+[pull/270]: https://github.com/npm/marky-markdown/pull/270
+[revelt]: https://github.com/revelt
+[issue/262]: https://github.com/npm/marky-markdown/issues/262
+[pull/271]: https://github.com/npm/marky-markdown/pull/271
+[karanjthakkar]: https://github.com/karanjthakkar
+
 # 8.1.0 (2016-08-08)
 
 ### New Features
@@ -11,7 +383,7 @@
 
 - Table troubles be gone! Or at least, any troubles with text-alignment.
   Marky was stripping `style` attributes from `<td>` and `<th>` elements-
-  and thanks to [revin]'s hardwork, it isn't anymore! 
+  and thanks to [revin]'s hardwork, it isn't anymore!
   ([issues/212], [pull/216])
 
 ### Docs
@@ -218,9 +590,9 @@ Due to the update to `markdown-it` (see below), our markdown parsing now uses Co
 
 ### Tests
 
-- originally we were installing some packages as `devDependencies` in 
+- originally we were installing some packages as `devDependencies` in
   order to use their `README`s in tests. this became an issue when
-  greenkeeper would attempt to update them and break our tests :) 
+  greenkeeper would attempt to update them and break our tests :)
   we now have pulled in the `README`s as static assets ([issue/91]
   [pull/114]), by [revin]
 - tests were all in a single file, broken up in categories
@@ -245,7 +617,7 @@ Due to the update to `markdown-it` (see below), our markdown parsing now uses Co
 ### Bug Fixes
 
 - any URL containing "//youtube.com" was make it through our iframe
-  filter, but the intent was to only allow actual YouTube URLs. 
+  filter, but the intent was to only allow actual YouTube URLs.
   ([issue/108], [pull/110]), filed by [lovasoa],  solved by [revin]
 
 [lovasoa]: https://github.com/lovasoa
@@ -286,7 +658,7 @@ Due to the update to `markdown-it` (see below), our markdown parsing now uses Co
 - we strip `h1` tags from `README`s that have the same content as the
   package name, however we did not update this feature to account for
   scoped package names, e.g. @scope/pkg. now we remove the scope from
-  the package meta-data to check the `README`'s `h1`. 
+  the package meta-data to check the `README`'s `h1`.
   ([issue/48][pull/103]) - reported by [sindresorhus], solved by [revin]
 
 ### Documentation
@@ -307,7 +679,7 @@ Due to the update to `markdown-it` (see below), our markdown parsing now uses Co
 ### Bug Fix
 
 - we were parsing `:)` into emoji, though this is not the desired behavior.
-  disabled shortcut emoji parsing in the markdown-it-emoji plugin. 
+  disabled shortcut emoji parsing in the markdown-it-emoji plugin.
   ([issue/95], [pull/97]) - reported by [cloakedninjas], solved by [revin]
 
 # 6.0.1 (2016-01-07)

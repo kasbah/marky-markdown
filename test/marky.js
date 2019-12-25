@@ -3,8 +3,10 @@ var oldkeys = Object.keys(global)
 
 var assert = require('assert')
 var marky = require('..')
+var markyPackage = require('../package.json')
 var fixtures = require('./fixtures')
 var intercept = require('intercept-stdout')
+var markdownIt = require('markdown-it')
 
 describe('marky-markdown', function () {
   it('is a function', function () {
@@ -12,12 +14,9 @@ describe('marky-markdown', function () {
     assert(typeof marky === 'function')
   })
 
-  it('accepts a markdown string and returns a cheerio DOM object', function () {
-    var $ = marky('hello, world')
-    assert($.html)
-    assert($._root)
-    assert($._options)
-    assert(~$.html().indexOf('<p>hello, world</p>\n'))
+  it('accepts a markdown string and returns an HTML string', function () {
+    var html = marky('hello, world')
+    assert(~html.toLowerCase().indexOf('<p>hello, world</p>\n'))
   })
 
   it('throws an error if first argument is not a string', function () {
@@ -25,6 +24,38 @@ describe('marky-markdown', function () {
       function () { marky(null) },
       /first argument must be a string/
     )
+  })
+
+  it('throws an error if second argument is provided and not an object', function () {
+    var err = /second argument must be an object/
+    assert.throws(function () { marky('', 'no strings allowed') }, err)
+    assert.throws(function () { marky('', 3) }, err)
+    assert.throws(function () { marky('', ['not', 'an', 'array']) }, err)
+    assert.throws(function () { marky('', null) }, err)
+    assert.throws(function () { marky('', new function () { this.prop = 'no constructed instances' }()) }, err)
+
+    assert.doesNotThrow(function () { marky('') })
+    assert.doesNotThrow(function () { marky('', {}) })
+  })
+
+  it('has a getParser method', function () {
+    assert(typeof marky.getParser === 'function')
+  })
+
+  it('getParser returns a markdown-it parser', function () {
+    assert(marky.getParser() instanceof markdownIt)
+  })
+
+  it('getParser.render returns the same as marky.render (sanitize: true)', function () {
+    var html = marky(fixtures.benchmark)
+    var parserHtml = marky.getParser().render(fixtures.benchmark)
+    assert.equal(html, parserHtml)
+  })
+
+  it('getParser.render returns the same as marky.render (sanitize: false)', function () {
+    var html = marky(fixtures.benchmark, {sanitize: false})
+    var parserHtml = marky.getParser({sanitize: false}).render(fixtures.benchmark)
+    assert.equal(html, parserHtml)
   })
 })
 
@@ -69,15 +100,33 @@ describe('fixtures', function () {
 })
 
 describe('debug', function () {
-  it('produces the same output in debug mode as in normal mode', function () {
-    // drop anything going to stdout (so we don't wreck mocha's console output)
-    var unhookIntercept = intercept(function () { return '' })
+  // the unhookIntercept thing in these tests here drops anything going to
+  // stdout; it'd be nice to do the setup/teardown in a before()/after() pair,
+  // but then it stops mocha from showing the test results
+  function hideOutput () { return '' }
 
-    var $ = marky(fixtures.benchmark)
-    var debug = marky(fixtures.benchmark, {debug: true})
-    assert.equal($.html(), debug.html())
+  it('prepends a debug comment to the rendered HTML', function () {
+    var unhookIntercept = intercept(hideOutput)
+
+    var output = marky(fixtures.benchmark, {debug: true})
+    var firstLine = output.split('\n')[0].trim()
 
     unhookIntercept()
+
+    assert(firstLine.indexOf(markyPackage.version) > -1)
+    assert.equal(firstLine.indexOf('<!--'), 0)
+    assert.equal(firstLine.indexOf('-->'), firstLine.length - 3)
+  })
+
+  it('produces the same HTML in debug mode as in normal mode', function () {
+    var unhookIntercept = intercept(hideOutput)
+
+    var normal = marky(fixtures.benchmark)
+    var debug = marky(fixtures.benchmark, {debug: true})
+
+    unhookIntercept()
+
+    assert.equal(normal, debug.split('\n').slice(1).join('\n'))
   })
 })
 
