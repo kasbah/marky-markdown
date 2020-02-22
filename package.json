@@ -69,5 +69,8 @@
   "bin": "./bin/marky-markdown.js",
   "standard": {
     "ignore": "dist"
+  },
+  "resolutions": {
+    "oniguruma": "7.2.1"
   }
 }
