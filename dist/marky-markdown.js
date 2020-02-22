@@ -1412,6 +1412,8 @@ function scopeNameFromLang (highlighter, lang) {
 }).call(this,require('_process'))
 },{"./cleanup":2,"./gfm/image":3,"./gfm/indented-headings":4,"./gfm/link":5,"./gfm/override-link-destination-parser":6,"./gfm/relaxed-link-reference":7,"./linkify":9,"./plugin/cdn":10,"./plugin/code-wrap":11,"./plugin/github":12,"./plugin/gravatar":13,"./plugin/heading-links":14,"./plugin/html-heading":15,"./plugin/language-alias":16,"./plugin/nofollow":17,"./plugin/packagize":18,"./plugin/youtube":19,"_process":191,"highlights":28,"lodash.pickby":84,"markdown-it":95,"markdown-it-emoji":86,"markdown-it-expand-tabs":92,"markdown-it-lazy-headers":93,"markdown-it-task-lists":94}],21:[function(require,module,exports){
 var sanitizeHtml = require('sanitize-html')
+const url = require('url')
+
 module.exports = function (html, options) {
   var config
   if (options && options.prefixHeadingIds) {
@@ -1481,7 +1483,7 @@ function getSanitizerConfig (options) {
       h5: ['id', 'align'],
       h6: ['id', 'align'],
       a: ['href', 'id', 'name', 'target', 'title', 'aria-hidden', 'rel'],
-      img: ['alt', 'id', 'src', 'width', 'height', 'align', 'valign', 'title', 'style'],
+      img: ['alt', 'id', 'src', 'width', 'height', 'align', 'valign', 'title'],
       p: ['align'],
       meta: ['name', 'content'],
       iframe: ['src', 'frameborder', 'allowfullscreen'],
@@ -1507,7 +1509,9 @@ function getSanitizerConfig (options) {
 
       // Allow YouTube iframes
       if (frame.tag !== 'iframe') return false
-      return !String(frame.attribs.src).match(/^(https?:)?\/\/(www\.)?youtube\.com/)
+
+      const parsed = url.parse(frame.attribs.src || '')
+      return !['www.youtube.com', 'youtube.com', 'youtu.be'].includes(parsed.hostname)
     },
     transformTags: {
       'td': sanitizeCellStyle,
@@ -1573,7 +1577,7 @@ function isAlreadyPrefixed (id, prefix) {
   return id.includes(prefix) && id.length > prefix.length
 }
 
-},{"./highlights-tokens":8,"sanitize-html":211}],22:[function(require,module,exports){
+},{"./highlights-tokens":8,"sanitize-html":211,"url":222}],22:[function(require,module,exports){
 var assign = require('lodash.assign')
 
 var Token // Token constructor from markdown-it
@@ -1627,7 +1631,7 @@ tokenUtil.getText = function getText (token) {
 }
 
 },{"lodash.assign":79}],23:[function(require,module,exports){
-module.exports={"version":"12.0.0","repositoryUrl":"https://github.com/npm/marky-markdown","issuesUrl":"https://github.com/npm/marky-markdown/issues"}
+module.exports={"version":"12.0.3","repositoryUrl":"https://github.com/npm/marky-markdown","issuesUrl":"https://github.com/npm/marky-markdown/issues"}
 },{}],24:[function(require,module,exports){
 (function (global){
 'use strict';
