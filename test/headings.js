@@ -55,11 +55,6 @@ describe('headings', function () {
     assert($html("h1 a[href='#one-space']").length)
   })
 
-  it('injects name attribute into the anchor tags', function () {
-    assert(~fixtures.dirty.indexOf('# h1'))
-    assert($("h1 a[name='h1']").length)
-  })
-
   it('adds anchor class to added heading links', function () {
     assert(~fixtures.dirty.indexOf('# h1'))
     assert($md("h1 a.anchor[href='#h1']").length)
