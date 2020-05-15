@@ -264,7 +264,7 @@ module.exports = function ($, pkg) {
     // Skip protocol-relative URLs
     if (url.path.match(/^\/\//)) return
 
-    const folder = url.path.match(/^\//) && pkg.repository.directory || ''
+    const folder = url.path.match(/^\//) ? '' : pkg.repository.directory || ''
 
     $(this).attr('src', 'https://raw.githubusercontent.com/' + path.join(
         repo.user,
