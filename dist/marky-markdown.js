@@ -291,7 +291,9 @@ module.exports = function ($, pkg) {
     // Skip protocol-relative URLs
     if (url.path.match(/^\/\//)) return
 
-    $(this).attr('href', repo.https_url + path.join('/blob/master/', url.href))
+    const folder = url.path.match(/^\//) ? '' : pkg.repository.directory || ''
+
+    $(this).attr('href', repo.https_url + path.join('/blob/master/', folder, url.href))
   })
 
   return $
